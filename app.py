@@ -1,121 +1,176 @@
+# Updated app.py with lift column type fix
 import streamlit as st
 import pandas as pd
-import numpy as np
 from src.analyzer import MarketBasketAnalyzer
-from src.utils import generate_sample_data, format_rule_for_display
 
 st.set_page_config(page_title="Market Basket Analysis", layout="wide")
 
 st.title("Market Basket Analysis Dashboard")
-st.write("I-upload ang iyong transaction data o gumamit ng sample data para sa analysis")
 
-# Mga tabs para sa navigation
-tab1, tab2, tab3 = st.tabs(["Data Upload", "Analysis", "Report"])
+# File upload
+uploaded_file = st.file_uploader("Upload transaction data CSV", type="csv")
 
-# Data Upload Tab
-with tab1:
-    st.header("Data Selection")
+# Sample data option
+use_sample_data = st.checkbox("Use sample data instead")
+
+@st.cache_data
+def get_sample_data():
+    data = {
+        'transaction_id': [1, 1, 1, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5, 5],
+        'product_id': ['bread', 'milk', 'eggs', 'bread', 'milk', 'milk', 'eggs', 'bread', 'milk', 'sugar', 'bread', 'milk', 'eggs', 'coffee']
+    }
+    return pd.DataFrame(data)
+
+if uploaded_file is not None:
+    # Load user data
+    df = pd.read_csv(uploaded_file)
+    st.success(f"Successfully loaded {len(df)} records")
+elif use_sample_data:
+    # Use sample data
+    df = get_sample_data()
+    st.info("Using sample data. Replace with your own data for more meaningful insights.")
+else:
+    st.info("Please upload a CSV file with transaction data or use sample data.")
+    st.write("""
+    Your CSV should have at least these columns:
+    - transaction_id: Unique identifier for each transaction
+    - product_id: Product identifier or name
     
-    data_option = st.radio(
-        "Pumili ng data source:",
-        ["Upload CSV", "Use Sample Data"]
+    Optional columns:
+    - customer_id: Unique identifier for each customer
+    - timestamp: When the transaction occurred
+    """)
+    st.stop()
+
+# Display raw data
+with st.expander("View Raw Data"):
+    st.dataframe(df.head(10))
+    st.text(f"Column names: {', '.join(df.columns)}")
+
+try:
+    # Initialize analyzer
+    analyzer = MarketBasketAnalyzer(df)
+    analyzer.preprocess_data()
+    
+    # Display basic insights
+    st.header("Dataset Overview")
+    insights = analyzer.generate_insights()
+    
+    # Create metrics
+    metrics = []
+    metrics.append(("Total Transactions", f"{insights['total_transactions']:,}"))
+    if 'unique_customers' in insights:
+        metrics.append(("Unique Customers", f"{insights['unique_customers']:,}"))
+    metrics.append(("Unique Products", f"{insights['unique_products']:,}"))
+    metrics.append(("Avg. Basket Size", f"{insights['avg_basket_size']:.2f}"))
+    
+    # Display metrics in columns
+    cols = st.columns(len(metrics))
+    for i, (label, value) in enumerate(metrics):
+        cols[i].metric(label, value)
+    
+    # Analysis parameters
+    st.header("Analysis Parameters")
+    col1, col2 = st.columns(2)
+    with col1:
+        min_support = st.slider("Minimum Support", 0.01, 0.5, 0.05, 
+                              help="Minimum frequency threshold for items to be considered frequent")
+    with col2:
+        min_confidence = st.slider("Minimum Confidence", 0.1, 1.0, 0.5,
+                                 help="Minimum probability threshold for rules to be considered strong")
+    
+    # Generate analysis
+    with st.spinner("Finding frequent itemsets..."):
+        itemsets = analyzer.find_frequent_itemsets(min_support=min_support)
+    
+    if itemsets.empty:
+        st.warning(f"No frequent itemsets found with minimum support of {min_support}. Try lowering the support threshold.")
+        st.stop()
+        
+    with st.spinner("Generating association rules..."):
+        rules = analyzer.generate_rules(min_confidence=min_confidence)
+    
+    if rules.empty:
+        st.warning(f"No association rules found with minimum confidence of {min_confidence}. Try lowering the confidence threshold.")
+        st.stop()
+    
+    # Display visualizations
+    st.header("Visualizations")
+    
+    tab1, tab2, tab3 = st.tabs(["Product Frequency", "Co-occurrence Heatmap", "Association Network"])
+    
+    with tab1:
+        st.subheader("Product Frequency")
+        fig_freq = analyzer.plot_product_frequency()
+        st.pyplot(fig_freq)
+        
+    with tab2:
+        st.subheader("Co-occurrence Heatmap")
+        fig_heatmap = analyzer.plot_association_heatmap()
+        st.pyplot(fig_heatmap)
+    
+    with tab3:
+        st.subheader("Association Network")
+        min_lift = st.slider("Minimum Lift for Network Graph", 1.0, 5.0, 1.2,
+                           help="Higher values show stronger associations only")
+        fig_network = analyzer.create_network_graph(min_confidence=min_confidence, min_lift=min_lift)
+        st.pyplot(fig_network)
+    
+    # Display top rules
+    st.header("Top Association Rules")
+    
+    # Format rules for display - IMPORTANT: Create a copy for display to keep original numeric types
+    display_rules = rules.copy()
+    
+    # Function to format itemsets for display
+    def format_itemset(itemset):
+        return ', '.join(list(itemset))
+    
+    # Create formatted columns while preserving original
+    display_rules['antecedents_str'] = display_rules['antecedents'].apply(format_itemset)
+    display_rules['consequents_str'] = display_rules['consequents'].apply(format_itemset)
+    
+    # Sort rules by lift (using original numeric column)
+    top_rules = display_rules.sort_values('lift', ascending=False).head(10)
+    
+    # Format columns for display after sorting
+    top_rules['confidence_str'] = top_rules['confidence'].apply(lambda x: f"{x:.2%}")
+    top_rules['lift_str'] = top_rules['lift'].apply(lambda x: f"{x:.2f}")
+    top_rules['support_str'] = top_rules['support'].apply(lambda x: f"{x:.4f}")
+    
+    # Display the formatted rules
+    st.dataframe(
+        top_rules[['antecedents_str', 'consequents_str', 'support_str', 'confidence_str', 'lift_str']].rename(columns={
+            'antecedents_str': 'Antecedents',
+            'consequents_str': 'Consequents',
+            'support_str': 'Support',
+            'confidence_str': 'Confidence',
+            'lift_str': 'Lift'
+        }),
+        use_container_width=True
     )
     
-    if data_option == "Upload CSV":
-        uploaded_file = st.file_uploader("I-upload ang transaction data CSV", type="csv")
-        
-        if uploaded_file is not None:
-            df = pd.read_csv(uploaded_file)
-            df.rename(columns={'Member_number': 'transaction_id', 'itemDescription': 'product_id'}, inplace=True)
-            st.success(f"Na-upload na ang file! {len(df)} rows ang na-detect.")
-        else:
-            df = None
-    else:
-        st.write("Gagawa ng sample transaction data")
-        num_transactions = st.slider("Ilang transactions?", 100, 5000, 1000)
-        
-        if st.button("Generate Sample Data"):
-            df = generate_sample_data(num_transactions)
-            df.rename(columns={'Member_number': 'transaction_id', 'itemDescription': 'product_id'}, inplace=True)
-            st.success(f"Na-generate na ang {len(df)} rows ng sample data!")
-        else:
-            df = None
-    
-    if df is not None:
-        st.subheader("Data Preview")
-        st.dataframe(df.head(10))
-        st.session_state['transaction_data'] = df
-
-# Analysis Tab
-with tab2:
-    st.header("Market Basket Analysis")
-    
-    if 'transaction_data' not in st.session_state:
-        st.warning("Wala pang data na na-upload o na-generate. Pumunta muna sa 'Data Upload' tab.")
-    else:
-        df = st.session_state['transaction_data']
-        
-        analyzer = MarketBasketAnalyzer(df)
-        analyzer.preprocess_data()
-        
-        st.subheader("Dataset Overview")
-        insights = analyzer.generate_insights()
-        
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("Total Transactions", f"{insights.get('total_transactions', 0):,}")
-        with col2:
-            st.metric("Unique Customers", f"{insights.get('unique_customers', 0):,}")
-        with col3:
-            st.metric("Unique Products", f"{insights.get('unique_products', 0):,}")
-        
-        st.subheader("Analysis Parameters")
-        col1, col2 = st.columns(2)
-        with col1:
-            min_support = st.slider("Minimum Support", 0.01, 0.5, 0.05)
-        with col2:
-            min_confidence = st.slider("Minimum Confidence", 0.1, 1.0, 0.5)
-        
-        if st.button("Run Analysis"):
-            with st.spinner("Nag-rurun ang analysis..."):
-                st.session_state['binary_matrix'] = analyzer.create_binary_matrix()
-                st.session_state['frequent_itemsets'] = analyzer.find_frequent_itemsets(min_support=min_support)
-                st.session_state['rules'] = analyzer.generate_rules(min_confidence=min_confidence)
-                st.success(f"Tapos na ang analysis! {len(st.session_state['rules'])} rules ang nakita.")
-        
-        if 'rules' in st.session_state and not st.session_state['rules'].empty:
-            st.subheader("Visualizations")
-            viz_tab1, viz_tab2, viz_tab3 = st.tabs(["Product Frequency", "Co-occurrence Heatmap", "Association Network"])
-            
-            with viz_tab1:
-                fig_freq = analyzer.plot_product_frequency()
-                st.pyplot(fig_freq)
-                
-            with viz_tab2:
-                fig_heatmap = analyzer.plot_association_heatmap()
-                if fig_heatmap:
-                    st.pyplot(fig_heatmap)
-            
-            with viz_tab3:
-                min_lift = st.slider("Minimum Lift for Network", 1.0, 5.0, 1.5)
-                fig_network = analyzer.create_network_graph(min_confidence=min_confidence, min_lift=min_lift)
-                st.pyplot(fig_network)
-            
-            st.subheader("Top Association Rules")
-            st.dataframe(st.session_state['rules'].nlargest(10, 'lift'))
-            st.session_state['analyzer'] = analyzer
-
-# Report Tab
-with tab3:
-    st.header("Analysis Report")
-    
-    if 'analyzer' not in st.session_state:
-        st.warning("Wala pang completed analysis. Pumunta muna sa 'Analysis' tab at i-run ang analysis.")
-    else:
-        analyzer = st.session_state['analyzer']
+    # Export options
+    st.header("Export Results")
+    col1, col2 = st.columns(2)
+    with col1:
         report = analyzer.generate_report()
-        
-        st.text_area("Complete Report", report, height=400)
-        
-        if st.button("Download Report"):
-            st.download_button("Download as Text", report, file_name="market_basket_analysis_report.txt", mime="text/plain")
+        st.download_button(
+            "Download Analysis Report",
+            report,
+            file_name="market_basket_analysis_report.txt",
+            mime="text/plain"
+        )
+    with col2:
+        # Ensure we export the original rules with numeric values intact
+        rules_csv = rules.to_csv(index=False)
+        st.download_button(
+            "Download Rules as CSV",
+            rules_csv,
+            file_name="association_rules.csv",
+            mime="text/csv"
+        )
+
+except Exception as e:
+    st.error(f"An error occurred: {str(e)}")
+    st.write("Please check that your data has the required columns: transaction_id, product_id")
