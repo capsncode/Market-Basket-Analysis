@@ -1,4 +1,4 @@
-# Market Basket Analysis Portfolio Project
+# Market Basket Analysi Project
 
 A comprehensive market basket analysis tool that helps identify product associations and generate insights from transaction data.
 
