@@ -4,5 +4,5 @@ matplotlib==3.7.2
 seaborn==0.12.2
 mlxtend==0.22.0
 networkx==3.1
-streamlit==1.26.0
+streamlit==1.37.0
 pytest==7.4.2
