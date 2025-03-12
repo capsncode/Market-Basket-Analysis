@@ -7,7 +7,7 @@ st.set_page_config(page_title="Market Basket Analysis", layout="wide")
 
 st.title("Market Basket Analysis Dashboard")
 
-# File upload
+
 uploaded_file = st.file_uploader("Upload transaction data CSV", type="csv")
 
 # Sample data option
