@@ -1,4 +1,4 @@
-# Updated app.py with lift column type fix
+
 import streamlit as st
 import pandas as pd
 from src.analyzer import MarketBasketAnalyzer
