@@ -58,8 +58,7 @@ class MarketBasketAnalyzer:
     
         te = TransactionEncoder()
         te_ary = te.fit(transactions_grouped).transform(transactions_grouped)
-        
-        # Convert to DataFrame
+
         self.binary_matrix = pd.DataFrame(te_ary, columns=te.columns_)
         return self.binary_matrix
     
