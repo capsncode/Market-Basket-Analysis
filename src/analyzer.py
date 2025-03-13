@@ -26,7 +26,6 @@ class MarketBasketAnalyzer:
         
     def preprocess_data(self):
         """Clean and preprocess the transaction data"""
-        # Remove duplicates
         self.transactions_df = self.transactions_df.drop_duplicates()
         
         # Handle missing values
