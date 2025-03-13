@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 from src.analyzer import MarketBasketAnalyzer
@@ -10,7 +9,6 @@ st.title("Market Basket Analysis Dashboard")
 
 uploaded_file = st.file_uploader("Upload transaction data CSV", type="csv")
 
-# Sample data option
 use_sample_data = st.checkbox("Use sample data instead")
 
 @st.cache_data
