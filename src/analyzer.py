@@ -103,7 +103,6 @@ class MarketBasketAnalyzer:
 
         cooc_matrix = self.binary_matrix.T.dot(self.binary_matrix)
         
-        # Plot heatmap
         plt.figure(figsize=(12, 10))
         sns.heatmap(
             cooc_matrix.iloc[:top_n, :top_n],
