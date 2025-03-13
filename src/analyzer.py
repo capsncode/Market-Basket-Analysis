@@ -100,8 +100,7 @@ class MarketBasketAnalyzer:
         """Create a heatmap of product co-occurrences"""
         if self.binary_matrix is None:
             self.create_binary_matrix()
-            
-        # Calculate co-occurrence matrix
+
         cooc_matrix = self.binary_matrix.T.dot(self.binary_matrix)
         
         # Plot heatmap
