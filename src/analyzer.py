@@ -119,8 +119,7 @@ class MarketBasketAnalyzer:
             self.generate_rules(min_confidence)
             
         G = nx.Graph()
-        
-        # Filter rules
+
         filtered_rules = self.rules[
             (self.rules['confidence'] >= min_confidence) &
             (self.rules['lift'] >= min_lift)
