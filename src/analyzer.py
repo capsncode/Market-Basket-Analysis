@@ -118,7 +118,6 @@ class MarketBasketAnalyzer:
         if self.rules is None:
             self.generate_rules(min_confidence)
             
-        # Create network graph
         G = nx.Graph()
         
         # Filter rules
