@@ -132,8 +132,7 @@ class MarketBasketAnalyzer:
                      fontsize=14)
             plt.gca().set_axis_off()
             return plt
-            
-        # Add edges for rules meeting criteria
+
         for _, rule in filtered_rules.iterrows():
             antecedents = list(rule['antecedents'])[0]
             consequents = list(rule['consequents'])[0]
