@@ -18,8 +18,7 @@ class MarketBasketAnalyzer:
         self.binary_matrix = None
         self.frequent_itemsets = None
         self.rules = None
-        
-        # Validate required columns
+
         required_columns = ['transaction_id', 'product_id']
         for col in required_columns:
             if col not in self.transactions_df.columns:
