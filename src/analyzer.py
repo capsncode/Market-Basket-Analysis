@@ -29,8 +29,7 @@ class MarketBasketAnalyzer:
         self.transactions_df = self.transactions_df.drop_duplicates()
         
         self.transactions_df = self.transactions_df.dropna(subset=['transaction_id', 'product_id'])
-        
-        # Convert timestamp if needed
+
         if 'timestamp' in self.transactions_df.columns:
             self.transactions_df['timestamp'] = pd.to_datetime(self.transactions_df['timestamp'])
             
