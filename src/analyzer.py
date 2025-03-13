@@ -55,8 +55,7 @@ class MarketBasketAnalyzer:
     def create_binary_matrix(self):
         """Convert transactions into a binary matrix format"""
         transactions_grouped = self.transactions_df.groupby('transaction_id')['product_id'].agg(list)
-        
-        # Create transaction encoder
+    
         te = TransactionEncoder()
         te_ary = te.fit(transactions_grouped).transform(transactions_grouped)
         
