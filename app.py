@@ -20,7 +20,7 @@ def get_sample_data():
     return pd.DataFrame(data)
 
 if uploaded_file is not None:
-    # Load user data
+
     df = pd.read_csv(uploaded_file)
     st.success(f"Successfully loaded {len(df)} records")
 elif use_sample_data:
