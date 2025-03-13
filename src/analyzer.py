@@ -41,7 +41,6 @@ class MarketBasketAnalyzer:
             'avg_basket_size': self.transactions_df.groupby('transaction_id')['product_id'].count().mean()
         }
         
-        # Add optional insights if columns exist
         if 'customer_id' in self.transactions_df.columns:
             insights['unique_customers'] = self.transactions_df['customer_id'].nunique()
         
