@@ -107,7 +107,6 @@ try:
 
     st.header("Top Association Rules")
     
-    # Format rules for display - IMPORTANT: Create a copy for display to keep original numeric types
     display_rules = rules.copy()
     
     # Function to format itemsets for display
