@@ -116,8 +116,7 @@ try:
     display_rules['consequents_str'] = display_rules['consequents'].apply(format_itemset)
 
     top_rules = display_rules.sort_values('lift', ascending=False).head(10)
-    
-    # Format columns for display after sorting
+   
     top_rules['confidence_str'] = top_rules['confidence'].apply(lambda x: f"{x:.2%}")
     top_rules['lift_str'] = top_rules['lift'].apply(lambda x: f"{x:.2f}")
     top_rules['support_str'] = top_rules['support'].apply(lambda x: f"{x:.4f}")
