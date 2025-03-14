@@ -56,8 +56,7 @@ try:
         metrics.append(("Unique Customers", f"{insights['unique_customers']:,}"))
     metrics.append(("Unique Products", f"{insights['unique_products']:,}"))
     metrics.append(("Avg. Basket Size", f"{insights['avg_basket_size']:.2f}"))
-    
-    # Display metrics in columns
+
     cols = st.columns(len(metrics))
     for i, (label, value) in enumerate(metrics):
         cols[i].metric(label, value)
