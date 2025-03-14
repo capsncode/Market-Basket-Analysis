@@ -112,7 +112,6 @@ try:
     def format_itemset(itemset):
         return ', '.join(list(itemset))
     
-    # Create formatted columns while preserving original
     display_rules['antecedents_str'] = display_rules['antecedents'].apply(format_itemset)
     display_rules['consequents_str'] = display_rules['consequents'].apply(format_itemset)
     
