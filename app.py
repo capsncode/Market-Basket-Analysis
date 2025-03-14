@@ -109,7 +109,6 @@ try:
     
     display_rules = rules.copy()
     
-    # Function to format itemsets for display
     def format_itemset(itemset):
         return ', '.join(list(itemset))
     
