@@ -24,7 +24,6 @@ if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
     st.success(f"Successfully loaded {len(df)} records")
 elif use_sample_data:
-    # Use sample data
     df = get_sample_data()
     st.info("Using sample data. Replace with your own data for more meaningful insights.")
 else:
