@@ -104,8 +104,7 @@ try:
                            help="Higher values show stronger associations only")
         fig_network = analyzer.create_network_graph(min_confidence=min_confidence, min_lift=min_lift)
         st.pyplot(fig_network)
-    
-    # Display top rules
+
     st.header("Top Association Rules")
     
     # Format rules for display - IMPORTANT: Create a copy for display to keep original numeric types
