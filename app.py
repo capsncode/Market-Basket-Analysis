@@ -49,8 +49,7 @@ try:
 
     st.header("Dataset Overview")
     insights = analyzer.generate_insights()
-    
-    # Create metrics
+
     metrics = []
     metrics.append(("Total Transactions", f"{insights['total_transactions']:,}"))
     if 'unique_customers' in insights:
