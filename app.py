@@ -84,7 +84,6 @@ try:
         st.warning(f"No association rules found with minimum confidence of {min_confidence}. Try lowering the confidence threshold.")
         st.stop()
     
-    # Display visualizations
     st.header("Visualizations")
     
     tab1, tab2, tab3 = st.tabs(["Product Frequency", "Co-occurrence Heatmap", "Association Network"])
