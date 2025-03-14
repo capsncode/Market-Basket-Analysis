@@ -69,8 +69,7 @@ try:
     with col2:
         min_confidence = st.slider("Minimum Confidence", 0.1, 1.0, 0.5,
                                  help="Minimum probability threshold for rules to be considered strong")
-    
-    # Generate analysis
+  
     with st.spinner("Finding frequent itemsets..."):
         itemsets = analyzer.find_frequent_itemsets(min_support=min_support)
     
