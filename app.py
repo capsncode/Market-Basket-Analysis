@@ -39,7 +39,6 @@ else:
     """)
     st.stop()
 
-# Display raw data
 with st.expander("View Raw Data"):
     st.dataframe(df.head(10))
     st.text(f"Column names: {', '.join(df.columns)}")
