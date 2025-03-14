@@ -44,7 +44,6 @@ with st.expander("View Raw Data"):
     st.text(f"Column names: {', '.join(df.columns)}")
 
 try:
-    # Initialize analyzer
     analyzer = MarketBasketAnalyzer(df)
     analyzer.preprocess_data()
     
