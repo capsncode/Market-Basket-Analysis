@@ -60,8 +60,7 @@ try:
     cols = st.columns(len(metrics))
     for i, (label, value) in enumerate(metrics):
         cols[i].metric(label, value)
-    
-    # Analysis parameters
+
     st.header("Analysis Parameters")
     col1, col2 = st.columns(2)
     with col1:
