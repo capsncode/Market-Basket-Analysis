@@ -114,8 +114,7 @@ try:
     
     display_rules['antecedents_str'] = display_rules['antecedents'].apply(format_itemset)
     display_rules['consequents_str'] = display_rules['consequents'].apply(format_itemset)
-    
-    # Sort rules by lift (using original numeric column)
+
     top_rules = display_rules.sort_values('lift', ascending=False).head(10)
     
     # Format columns for display after sorting
