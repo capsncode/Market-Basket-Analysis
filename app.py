@@ -46,8 +46,7 @@ with st.expander("View Raw Data"):
 try:
     analyzer = MarketBasketAnalyzer(df)
     analyzer.preprocess_data()
-    
-    # Display basic insights
+
     st.header("Dataset Overview")
     insights = analyzer.generate_insights()
     
