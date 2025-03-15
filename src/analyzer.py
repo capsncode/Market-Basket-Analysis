@@ -168,7 +168,6 @@ Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 ------------------
 Total Transactions: {insights['total_transactions']:,}
 """
-        # Add optional insights if available
         if 'unique_customers' in insights:
             report += f"Unique Customers: {insights['unique_customers']:,}\n"
             
