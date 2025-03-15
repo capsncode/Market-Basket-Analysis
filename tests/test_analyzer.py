@@ -10,8 +10,7 @@ def test_analyzer_initialization():
     analyzer = MarketBasketAnalyzer(df)
     assert analyzer is not None
     assert analyzer.transactions_df is not None
-    assert analyzer.binary_matrix is None  # Dapat None pa ito sa initialization
-
+    assert analyzer.binary_matrix is None  
 def test_preprocessing():
     """Test kung gumagana ng tama ang preprocessing"""
     data = {
