@@ -120,8 +120,7 @@ try:
     top_rules['confidence_str'] = top_rules['confidence'].apply(lambda x: f"{x:.2%}")
     top_rules['lift_str'] = top_rules['lift'].apply(lambda x: f"{x:.2f}")
     top_rules['support_str'] = top_rules['support'].apply(lambda x: f"{x:.4f}")
-    
-    # Display the formatted rules
+
     st.dataframe(
         top_rules[['antecedents_str', 'consequents_str', 'support_str', 'confidence_str', 'lift_str']].rename(columns={
             'antecedents_str': 'Antecedents',
