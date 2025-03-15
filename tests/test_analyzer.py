@@ -25,7 +25,6 @@ def test_preprocessing():
     analyzer = MarketBasketAnalyzer(df)
     analyzer.preprocess_data()
     
-    # Check kung na-remove ang duplicates at null values
     assert len(analyzer.transactions_df) == 3
     assert not analyzer.transactions_df.isnull().any().any()
     
