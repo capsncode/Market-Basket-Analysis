@@ -180,8 +180,7 @@ Total Rules Generated: {len(self.rules) if self.rules is not None else 0}
 """
         if self.rules is not None and not self.rules.empty:
             top_rules = self.rules.sort_values('lift', ascending=False).head(5)
-            
-            # Function to format an itemset
+        
             def format_itemset(items):
                 return ', '.join(list(items))
             
