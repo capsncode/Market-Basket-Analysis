@@ -72,8 +72,6 @@ def test_rule_generation():
     assert rules is not None
     assert 'confidence' in rules.columns
     assert 'lift' in rules.columns
-    
-    # Check kung may positive lift values
     assert (rules['lift'] > 1).any()
 
 def test_report_generation():
