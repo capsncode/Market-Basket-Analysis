@@ -14,7 +14,6 @@ def test_analyzer_initialization():
 
 def test_preprocessing():
     """Test kung gumagana ng tama ang preprocessing"""
-    # Gumawa ng data na may duplicates at null values
     data = {
         'transaction_id': [1, 1, 2, 2, 3],
         'product_id': ['bread', 'bread', 'milk', None, 'eggs'],
