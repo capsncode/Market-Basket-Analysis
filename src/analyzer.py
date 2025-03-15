@@ -179,7 +179,6 @@ Average Basket Size: {insights['avg_basket_size']:.2f} items
 Total Rules Generated: {len(self.rules) if self.rules is not None else 0}
 """
         if self.rules is not None and not self.rules.empty:
-            # Sort rules using pandas sort_values for safety
             top_rules = self.rules.sort_values('lift', ascending=False).head(5)
             
             # Function to format an itemset
