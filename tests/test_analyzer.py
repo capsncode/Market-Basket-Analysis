@@ -28,7 +28,6 @@ def test_preprocessing():
     assert len(analyzer.transactions_df) == 3
     assert not analyzer.transactions_df.isnull().any().any()
     
-    # Check kung na-convert ang timestamp
     assert pd.api.types.is_datetime64_any_dtype(analyzer.transactions_df['timestamp'])
 
 def test_binary_matrix():
