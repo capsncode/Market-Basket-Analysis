@@ -142,8 +142,7 @@ class MarketBasketAnalyzer:
                 weight=rule['lift'],
                 confidence=rule['confidence']
             )
-            
-        # Draw the graph
+        
         plt.figure(figsize=(12, 12))
         pos = nx.spring_layout(G)
         nx.draw(
