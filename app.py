@@ -143,7 +143,6 @@ try:
             mime="text/plain"
         )
     with col2:
-        # Ensure we export the original rules with numeric values intact
         rules_csv = rules.to_csv(index=False)
         st.download_button(
             "Download Rules as CSV",
