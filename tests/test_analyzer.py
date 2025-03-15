@@ -43,7 +43,6 @@ def test_binary_matrix():
 
     assert binary_matrix.shape == (3, 3) 
     
-    # Check kung tama ang values
     assert binary_matrix.iloc[0, binary_matrix.columns.get_indexer(['bread'])].values[0] == True
     assert binary_matrix.iloc[0, binary_matrix.columns.get_indexer(['milk'])].values[0] == True
     assert binary_matrix.iloc[0, binary_matrix.columns.get_indexer(['eggs'])].values[0] == False
