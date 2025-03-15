@@ -40,8 +40,7 @@ def test_binary_matrix():
     
     analyzer = MarketBasketAnalyzer(df)
     binary_matrix = analyzer.create_binary_matrix()
-    
-    # Check kung tama ang shape
+
     assert binary_matrix.shape == (3, 3)  # 3 transactions, 3 products
     
     # Check kung tama ang values
