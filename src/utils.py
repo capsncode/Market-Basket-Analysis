@@ -9,7 +9,7 @@ def generate_sample_data(n_transactions=1000):
         n_transactions: Ilang transactions ang gagawin
         
     Returns:
-        DataFrame ng synthetic transaction data
+        DataFrame of synthetic transaction data
     """
     products = ['bread', 'milk', 'eggs', 'cheese', 'butter', 'yogurt', 
                 'coffee', 'tea', 'sugar', 'flour']
