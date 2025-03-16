@@ -195,7 +195,6 @@ Total Rules Generated: {len(self.rules) if self.rules is not None else 0}
 3. Key Recommendations
 ---------------------
 """
-        # Add recommendations based on rules
         if self.rules is not None and not self.rules.empty:
             # Sort rules safely
             top_rules = self.rules.sort_values('lift', ascending=False).head(3)
