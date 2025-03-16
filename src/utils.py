@@ -16,7 +16,6 @@ def generate_sample_data(n_transactions=1000):
     
     data = []
     for i in range(n_transactions):
-        # Random na bilang ng products per transaction (1-5)
         n_products = np.random.randint(1, 6)
         transaction_products = np.random.choice(products, n_products, replace=False)
         
