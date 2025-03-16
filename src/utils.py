@@ -34,7 +34,7 @@ def clean_transaction_data(df):
     Clean the transaction before analyzing
     
     Args:
-        df: DataFrame ng raw transaction data
+        df: DataFrame of raw transaction data
         
     Returns:
         Cleaned DataFrame
