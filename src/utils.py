@@ -3,7 +3,7 @@ import numpy as np
 
 def generate_sample_data(n_transactions=1000):
     """
-    Gumawa ng sample transaction data for testing at demonstration
+    Create a sample transaction data for testing at demonstration
     
     Args:
         n_transactions: Ilang transactions ang gagawin
