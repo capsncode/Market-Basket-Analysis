@@ -49,8 +49,7 @@ def clean_transaction_data(df):
     if df_clean.isnull().any().any():
         print(f"May {df_clean.isnull().sum().sum()} null values ang na-drop")
         df_clean = df_clean.dropna()
-    
-    # I-ensure ang proper data types
+
     if 'transaction_id' in df_clean.columns:
         df_clean['transaction_id'] = df_clean['transaction_id'].astype(str)
     
