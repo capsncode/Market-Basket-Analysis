@@ -42,7 +42,7 @@ def clean_transaction_data(df):
     required_cols = ['transaction_id', 'product_id']
     missing_cols = [col for col in required_cols if col not in df.columns]
     if missing_cols:
-        raise ValueError(f"Kulang ang mga columns na ito: {missing_cols}")
+        raise ValueError(f"These columns are missing: {missing_cols}")
     
     df_clean = df.drop_duplicates()
 
