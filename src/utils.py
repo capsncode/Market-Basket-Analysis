@@ -39,7 +39,6 @@ def clean_transaction_data(df):
     Returns:
         Cleaned DataFrame
     """
-    # I-check kung kumpleto ang mga required columns
     required_cols = ['transaction_id', 'product_id']
     missing_cols = [col for col in required_cols if col not in df.columns]
     if missing_cols:
