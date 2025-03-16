@@ -183,8 +183,7 @@ Total Rules Generated: {len(self.rules) if self.rules is not None else 0}
         
             def format_itemset(items):
                 return ', '.join(list(items))
-            
-            # Format top rules for report
+
             rules_text = "Top 5 Rules by Lift:\n"
             for i, (_, rule) in enumerate(top_rules.iterrows(), 1):
                 rules_text += f"{i}. {format_itemset(rule['antecedents'])} → {format_itemset(rule['consequents'])}"
