@@ -44,7 +44,6 @@ def clean_transaction_data(df):
     if missing_cols:
         raise ValueError(f"Kulang ang mga columns na ito: {missing_cols}")
     
-    # I-drop ang duplicate transactions
     df_clean = df.drop_duplicates()
     
     # I-handle ang mga null values
