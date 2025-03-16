@@ -74,7 +74,6 @@ def format_rule_for_display(rule):
     return f"{antecedents} → {consequents} (support: {rule['support']:.3f}, confidence: {rule['confidence']:.3f}, lift: {rule['lift']:.3f})"
 
 if __name__ == "__main__":
-    # Test ang sample data generator
     df = generate_sample_data(100)
     print(f"Na-generate na sample data: {len(df)} rows")
     df.to_csv('../data/sample_transactions.csv', index=False)
