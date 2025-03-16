@@ -31,7 +31,7 @@ def generate_sample_data(n_transactions=1000):
 
 def clean_transaction_data(df):
     """
-    Linisin ang transaction data bago mag-analyze
+    Clean the transaction before analyzing
     
     Args:
         df: DataFrame ng raw transaction data
