@@ -6,7 +6,7 @@ def generate_sample_data(n_transactions=1000):
     Create a sample transaction data for testing at demonstration
     
     Args:
-        n_transactions: Ilang transactions ang gagawin
+        n_transactions: Number of transactions
         
     Returns:
         DataFrame of synthetic transaction data
